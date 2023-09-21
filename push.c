@@ -25,4 +25,5 @@ void monty_push(stack_t **head, unsigned int line_number)
 		prev->prev = new;
 
 	*head = new;
+	(void)line_number;
 }
