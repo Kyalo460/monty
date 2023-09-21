@@ -61,21 +61,24 @@ void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num)
 			exit(EXIT_FAILURE);
 		}
 	}
-
+	else
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_num);
+		free_every(buffer, &*head, stream);
+		exit(EXIT_FAILURE);
+	}
 	if (*head == NULL && strcmp(tok[0], "pint") == 0)
 	{
 		fprintf(stderr, "L%u: can't pint, stack empty\n", line_num);
 		free_every(buffer, &*head, stream);
 		exit(EXIT_FAILURE);
 	}
-
 	if (*head == NULL && strcmp(tok[0], "pop") == 0)
 	{
 		fprintf(stderr, "L%u: can't pop an empty stack\n", line_num);
 		free_every(buffer, &*head, stream);
 		exit(EXIT_FAILURE);
 	}
-
 	if (*head)
 	{
 		if ((*head)->next == NULL && strcmp(tok[0], "swap") == 0)
@@ -91,9 +94,6 @@ void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num)
 			exit(EXIT_FAILURE);
 		}
 	}
-
-
-
 }
 /**
   *free_every - frees the global op_toks array of strings
