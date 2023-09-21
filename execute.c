@@ -32,6 +32,12 @@ void execute(FILE *stream)
 			free_every(buffer, &head, stream);
 			exit(EXIT_FAILURE);
 		}
+		if (!tok[1] && strcmp(tok[0], "push") == 0)
+		{
+			fprintf(stderr, "L%u: usage: push integer\n", line_num);
+			free_every(buffer, &head, stream);
+			exit(EXIT_FAILURE);
+		}
 
 		handle(&head, stream, buffer, line_num);
 
@@ -52,7 +58,7 @@ void execute(FILE *stream)
   */
 void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num)
 {
-	if (tok[1] && strcmp(tok[0], "pall") != 0)
+	if (tok[1] && strcmp(tok[0], "push") == 0)
 	{
 		if (atoi(tok[1]) == 0 && strcmp(tok[1], "0") != 0)
 		{
