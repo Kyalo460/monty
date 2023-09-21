@@ -53,5 +53,8 @@ void monty_swap(stack_t **stack, unsigned int line_number);
 void (*find_op_func(char *opcode))(stack_t **, unsigned int);
 void free_stack(stack_t **head);
 void free_every(char *buffer, stack_t **head, FILE *stream);
+void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num);
+void monty_add(stack_t **stack, unsigned int line_number);
+void monty_nop(stack_t **stack, unsigned int line_number);
 
 #endif

@@ -32,15 +32,8 @@ void execute(FILE *stream)
 			free_every(buffer, &head, stream);
 			exit(EXIT_FAILURE);
 		}
-		if (tok[1] && strcmp(tok[0], "pall") != 0)
-		{
-			if (atoi(tok[1]) == 0 && strcmp(tok[1], "0") != 0)
-			{
-				fprintf(stderr, "L%u: usage: push integer\n", line_num);
-				free_every(buffer, &head, stream);
-				exit(EXIT_FAILURE);
-			}
-		}
+
+		handle(&head, stream, buffer, line_num);
 
 		op_func(&head, line_num);
 	}
@@ -50,6 +43,58 @@ void execute(FILE *stream)
 	buffer = NULL;
 }
 
+/**
+  *handle - handles exceptions
+  *@head: linked list
+  *@stream: opened file
+  *@buffer: current line
+  *@line_num: current line position
+  */
+void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num)
+{
+	if (tok[1] && strcmp(tok[0], "pall") != 0)
+	{
+		if (atoi(tok[1]) == 0 && strcmp(tok[1], "0") != 0)
+		{
+			fprintf(stderr, "L%u: usage: push integer\n", line_num);
+			free_every(buffer, &*head, stream);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	if (*head == NULL && strcmp(tok[0], "pint") == 0)
+	{
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line_num);
+		free_every(buffer, &*head, stream);
+		exit(EXIT_FAILURE);
+	}
+
+	if (*head == NULL && strcmp(tok[0], "pop") == 0)
+	{
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_num);
+		free_every(buffer, &*head, stream);
+		exit(EXIT_FAILURE);
+	}
+
+	if (*head)
+	{
+		if ((*head)->next == NULL && strcmp(tok[0], "swap") == 0)
+		{
+			fprintf(stderr, "L%u: can't swap, stack too short\n", line_num);
+			free_every(buffer, &*head, stream);
+			exit(EXIT_FAILURE);
+		}
+		if ((*head)->next == NULL && strcmp(tok[0], "add") == 0)
+		{
+			fprintf(stderr, "L%u: can't add, stack too short\n", line_num);
+			free_every(buffer, &*head, stream);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+
+
+}
 /**
   *free_every - frees the global op_toks array of strings
   *@buffer: current line
@@ -76,11 +121,13 @@ void (*find_op_func(char *opcode))(stack_t **, unsigned int)
 		 {"pint", monty_pint},
 		 {"pop", monty_pop},
 		 {"swap", monty_swap},
+		 {"add", monty_add},
+		 {"nop", monty_nop}
 	 };
 
 	int i;
 
-	for (i = 0; i < 5; i++)
+	for (i = 0; i < 7; i++)
 	{
 		if (strcmp(opcode, op_funcs[i].opcode) == 0)
 			return (op_funcs[i].f);
