@@ -6,7 +6,7 @@
   */
 void check_acc(char *path)
 {
-	if (access(path, F_OK) != 0)
+	if (access(path, R_OK) != 0)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", path);
 		exit(EXIT_FAILURE);
