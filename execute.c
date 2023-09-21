@@ -28,7 +28,7 @@ void execute(FILE *stream)
 		op_func = find_op_func(tok[0]);
 		if (op_func == NULL)
 		{
-			fprintf(stderr, "L%u: unknown instruction %s\n", line_num, tok[0]);
+			fprintf(stderr, "L%u: unknown instruction %s", line_num, tok[0]);
 			free_every(buffer, &head, stream);
 			exit(EXIT_FAILURE);
 		}
