@@ -79,21 +79,20 @@ void handle(stack_t **head, FILE *stream, char *buffer, unsigned int line_num)
 		free_every(buffer, &*head, stream);
 		exit(EXIT_FAILURE);
 	}
-	if (*head)
+
+	if ((*head == NULL || !(*head)->next) && strcmp(tok[0], "swap") == 0)
 	{
-		if ((*head)->next == NULL && strcmp(tok[0], "swap") == 0)
-		{
-			fprintf(stderr, "L%u: can't swap, stack too short\n", line_num);
-			free_every(buffer, &*head, stream);
-			exit(EXIT_FAILURE);
-		}
-		if ((*head)->next == NULL && strcmp(tok[0], "add") == 0)
-		{
-			fprintf(stderr, "L%u: can't add, stack too short\n", line_num);
-			free_every(buffer, &*head, stream);
-			exit(EXIT_FAILURE);
-		}
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line_num);
+		free_every(buffer, &*head, stream);
+		exit(EXIT_FAILURE);
 	}
+	if ((*head == NULL || !(*head)->next) && strcmp(tok[0], "add") == 0)
+	{
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_num);
+		free_every(buffer, &*head, stream);
+		exit(EXIT_FAILURE);
+	}
+
 }
 /**
   *free_every - frees the global op_toks array of strings

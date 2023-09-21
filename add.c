@@ -7,6 +7,6 @@
   */
 void monty_add(stack_t **stack, unsigned int line_number)
 {
-	(*stack)->next->next->n += (*stack)->next->n;
+	(*stack)->next->n += (*stack)->n;
 	monty_pop(stack, line_number);
 }
