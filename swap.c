@@ -29,4 +29,5 @@ void monty_swap(stack_t **stack, unsigned int line_number)
 	*stack = current->prev;
 
 	(*stack)->prev = NULL;
+	(void)line_number;
 }

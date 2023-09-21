@@ -8,4 +8,5 @@
 void monty_pint(stack_t **stack, unsigned int line_number)
 {
 	printf("%d\n", (*stack)->n);
+	(void)line_number;
 }
