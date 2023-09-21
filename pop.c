@@ -16,4 +16,6 @@ void monty_pop(stack_t **stack, unsigned int line_number)
 	if (current)
 		current->prev = NULL;
 	*stack = current;
+
+	(void)line_number;
 }
